@@ -1,0 +1,4 @@
+baseURL = "https://blog.chainring.xyz"
+languageCode = "en-us"
+title = "Chainring"
+theme = "tale"

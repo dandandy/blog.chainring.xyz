@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://blog.chainring.xyz/</loc>
+    <lastmod>2020-10-03T23:31:23+10:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.chainring.xyz/posts/</loc>
+    <lastmod>2020-10-03T23:31:23+10:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.chainring.xyz/posts/welcome/</loc>
+    <lastmod>2020-10-03T23:31:23+10:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.chainring.xyz/categories/</loc>
+  </url>
+  
+  <url>
+    <loc>https://blog.chainring.xyz/tags/</loc>
+  </url>
+  
+</urlset>
