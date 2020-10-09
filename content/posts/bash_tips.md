@@ -6,7 +6,7 @@ draft: false
 
 [Bash (Bourne Again Shell)](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) is an incredibly common shell and scripting language in which any developer working on Linux and macOS based systems will inevitably come across. Because of this, Bash scripting skills are a formidible tool to have in your belt. However, Bash scripting is notoriously difficult due to its extensive nature and large feature set, which often leads to developers writing poor scripts.
 
-In this post, we will explore you can write better Bash scripts with the help of `The Set Builtin`, `Trapping Functions`, `Shellcheck`, and `Idempotency`.
+In this post, we will how explore you can write better Bash scripts with the help of `The Set Builtin`, `Trapping Functions`, `Shellcheck`, and `Idempotency`.
 
 ---
 ## The Set Builtin
