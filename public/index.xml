@@ -12,12 +12,13 @@
     
     
     <item>
-      <title>Welcome</title>
-      <link>https://blog.chainring.xyz/posts/welcome/</link>
+      <title>Simple Tips for Happy Bashing</title>
+      <link>https://blog.chainring.xyz/posts/bash_tips/</link>
       <pubDate>Sat, 03 Oct 2020 23:31:23 +1000</pubDate>
       
-      <guid>https://blog.chainring.xyz/posts/welcome/</guid>
-      <description>Hi Josh</description>
+      <guid>https://blog.chainring.xyz/posts/bash_tips/</guid>
+      <description>Bash (Bourne Again Shell) is an incredibly common shell and scripting language in which any developer working on Linux and macOS based systems will inevitably come across. Because of this, Bash scripting skills are a formidible tool to have in your belt. However, Bash scripting is notoriously difficult due to its extensive nature and large feature set, which often leads to developers writing poor scripts.
+In this post, we will explore you can write better Bash scripts with the help of The Set Builtin, Trapping Functions, Shellcheck, and Idempotency.</description>
     </item>
     
   </channel>

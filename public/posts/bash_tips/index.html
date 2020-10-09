@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Simple Tips for Happy Bashing &middot; Chainring</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Chainring" />
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Chainring</h2>
+				</a>
+				<ul>
+    
+    
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2020-10-03 23:31:23 &#43;1000 AEST">October 3, 2020</time>
+</div>
+
+		<h1 class="post-title">Simple Tips for Happy Bashing</h1>
+<div class="post-line"></div>
+
+		
+
+		<p><a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash (Bourne Again Shell)</a> is an incredibly common shell and scripting language in which any developer working on Linux and macOS based systems will inevitably come across. Because of this, Bash scripting skills are a formidible tool to have in your belt. However, Bash scripting is notoriously difficult due to its extensive nature and large feature set, which often leads to developers writing poor scripts.</p>
+<p>In this post, we will explore you can write better Bash scripts with the help of <code>The Set Builtin</code>, <code>Trapping Functions</code>, <code>Shellcheck</code>, and <code>Idempotency</code>.</p>
+<hr>
+<h2 id="the-set-builtin">The Set Builtin</h2>
+<p>The <a href="https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html">builtin set command</a> allows you to change the way the Bash interpreter behaves by providing different flags to the set command. I want to focus on just four of these flags: e, u, o, and x.</p>
+<p>Running <code>set -e</code> in your script will cause the Bash script to exit as soon as any of the commands in the script exit with a non-zero exit code. This is particularly useful when you need to fail fast and exit ASAP since the default Bash scripting behaviour is to continue.</p>
+<p>Running <code>set -u</code> will cause an error if any unset variables are expanded. Ordinarily, Bash will just expand an unset variable to an empty string, but this can lead to bugs going undetected in scripts.</p>
+<p>Running <code>set -o pipefail</code> will cause the exit code of the script to be the last non-zero exit code from a command in the script, and only in the case where all commands exit zero, then the script will also exit zero.</p>
+<p>Running <code>set -x</code> will print a trace of the commands being run. This is particularly useful when you are debugging a script and need to work out precisely what command was being run. However, this can be annoying since it causes superfluous output.</p>
+<p>All of these commands together will look like <code>set -euxo pipefail</code> which is often seen directly under the shebang. To disable these changes, simply use <code>set +&lt;flag&gt;</code>.</p>
+<hr>
+<h2 id="trapping-functions">Trapping Functions</h2>
+<p>Good little Bash scripts should always clean up after themselves when they are complete, however, we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash.</p>
+<p>To solve this problem we use the <code>TRAP cleanup EXIT</code> pattern. The pattern is explained in great length in <a href="https://www.linuxjournal.com/content/bash-trap-command">this article here</a>, so I will only briefly show an example:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    <span style="color:#75715e"># some commands</span>
+<span style="color:#f92672">}</span>
+trap cleanup SIGINT
+trap cleanup EXIT
+</code></pre></div><p>A script with the above code snippet will run the cleanup function on either the <code>EXIT</code> or <code>SIGINT</code> signal, therefore we do not need to actually call the <code>cleanup</code> function directly in the script once we have included this trap, or else it will be invoked twice.</p>
+<p>A handy caveat to be aware of when using the <code>TRAP cleanup EXIT</code> pattern is that your script exit code may be changed by the commands in the cleanup function. Therefore, it can be handy to capture the exit code at the start of the cleanup function, and then apply it at the end, like so:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+    exit_code<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+    <span style="color:#75715e"># some commands</span>
+    exit <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>exit_code<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#f92672">}</span>
+trap cleanup SIGINT
+trap cleanup EXIT
+</code></pre></div><hr>
+<h2 id="shellcheck">Shellcheck</h2>
+<p>Bash scripting can be quite difficult because there are always multiple ways to cut your code, and no matter which way you choose to slice, you always run the risk of getting hurt. Thankfully there are ways to automatically check your code via static code analysis to keep your hands unscathed.</p>
+<p><a href="https://github.com/koalaman/shellcheck">Shellcheck</a> is a great static code analysis tool to ensure you follow best practices and avoid silly mistakes. Shellcheck fits in very nicely in continuous integration pipelines since it is fast and can be run via docker (<code>docker run --rm -v &quot;$PWD:/mnt&quot; koalaman/shellcheck:stable myscript</code>). The output of shellcheck is also particularly useful since all rule violations include a link to a webpage explaining why this code is bad, and how to fix it.</p>
+<hr>
+<h2 id="idempotency">Idempotency</h2>
+<p>This last point is a bit different from the others since it focuses on how we should write our Bash scripts (or indeed any script) from a philosophical perspective, rather than a technical one.</p>
+<p>When we write scripts because we want to automate work which could be modifying the state of a machine or the state of a file. This changing of the state is known as side effects. For a script to be considered correct, it should produce the correct side effects when run. However, what we have overlooked in the scenario we have just outlined is what should happen if the script is run twice. Should the side effect be produced again, or should it not do any work since the effect has already been done? The answer is, if the script were written with idempotency in mind, then the script would not produce any more side effects after the original state was changed to the desired state.</p>
+<p>To define this more precisely by quoting Wikipedia:</p>
+<blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Idempotence">Idempotence is the property of certain operations in mathematics and computer science whereby they can be applied multiple times without changing the result beyond the initial application.</a></p>
+</blockquote>
+<p>This characteristic is desirable since it makes it easier to reason with how our scripts should behave when run because the world is in either one of two states: before the script has been run, or after the scripts have been run. Furthermore, it also protects from potential harms created from running a script twice and producing the same effect twice (for example double-charging customers).</p>
+<hr>
+<h1 id="now-get-bashing">Now get Bashing!</h1>
+
+
+		
+	</div>
+
+	<div class="pagination">
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2020-10-09 20:51:25.187733 &#43;1100 AEDT m=&#43;0.208236052">2020</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>
