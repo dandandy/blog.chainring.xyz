@@ -48,7 +48,7 @@
 		
 
 		<p><a href="https://en.wikipedia.org/wiki/Bash_(Unix_shell)">Bash (Bourne Again Shell)</a> is an incredibly common shell and scripting language in which any developer working on Linux and macOS based systems will inevitably come across. Because of this, Bash scripting skills are a formidible tool to have in your belt. However, Bash scripting is notoriously difficult due to its extensive nature and large feature set, which often leads to developers writing poor scripts.</p>
-<p>In this post, we will explore you can write better Bash scripts with the help of <code>The Set Builtin</code>, <code>Trapping Functions</code>, <code>Shellcheck</code>, and <code>Idempotency</code>.</p>
+<p>In this post, we will how explore you can write better Bash scripts with the help of <code>The Set Builtin</code>, <code>Trapping Functions</code>, <code>Shellcheck</code>, and <code>Idempotency</code>.</p>
 <hr>
 <h2 id="the-set-builtin">The Set Builtin</h2>
 <p>The <a href="https://www.gnu.org/software/bash/manual/html_node/The-Set-Builtin.html">builtin set command</a> allows you to change the way the Bash interpreter behaves by providing different flags to the set command. I want to focus on just four of these flags: e, u, o, and x.</p>
@@ -56,10 +56,10 @@
 <p>Running <code>set -u</code> will cause an error if any unset variables are expanded. Ordinarily, Bash will just expand an unset variable to an empty string, but this can lead to bugs going undetected in scripts.</p>
 <p>Running <code>set -o pipefail</code> will cause the exit code of the script to be the last non-zero exit code from a command in the script, and only in the case where all commands exit zero, then the script will also exit zero.</p>
 <p>Running <code>set -x</code> will print a trace of the commands being run. This is particularly useful when you are debugging a script and need to work out precisely what command was being run. However, this can be annoying since it causes superfluous output.</p>
-<p>All of these commands together will look like <code>set -euxo pipefail</code> which is often seen directly under the shebang. To disable these changes, simply use <code>set +&lt;flag&gt;</code>.</p>
+<p>All of these commands together will look like <code>set -euxo pipefail</code> which is often seen directly under the <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a>. To disable these changes, simply use <code>set +&lt;flag&gt;</code>.</p>
 <hr>
 <h2 id="trapping-functions">Trapping Functions</h2>
-<p>Good little Bash scripts should always clean up after themselves when they are complete, however, we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash.</p>
+<p>Good little Bash scripts should always clean up after themselves when they are complete, however, as good developers we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash.</p>
 <p>To solve this problem we use the <code>TRAP cleanup EXIT</code> pattern. The pattern is explained in great length in <a href="https://www.linuxjournal.com/content/bash-trap-command">this article here</a>, so I will only briefly show an example:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
     <span style="color:#75715e"># some commands</span>
@@ -105,7 +105,7 @@ trap cleanup EXIT
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2020-10-09 20:51:25.187733 &#43;1100 AEDT m=&#43;0.208236052">2020</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2020-10-09 21:07:59.345739 &#43;1100 AEDT m=&#43;0.076749640">2020</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

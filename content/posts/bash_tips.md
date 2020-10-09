@@ -20,11 +20,11 @@ Running `set -o pipefail` will cause the exit code of the script to be the last 
 
 Running `set -x` will print a trace of the commands being run. This is particularly useful when you are debugging a script and need to work out precisely what command was being run. However, this can be annoying since it causes superfluous output.
 
-All of these commands together will look like `set -euxo pipefail` which is often seen directly under the shebang. To disable these changes, simply use `set +<flag>`.
+All of these commands together will look like `set -euxo pipefail` which is often seen directly under the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)). To disable these changes, simply use `set +<flag>`.
 
 ---
 ## Trapping Functions
-Good little Bash scripts should always clean up after themselves when they are complete, however, we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash. 
+Good little Bash scripts should always clean up after themselves when they are complete, however, as good developers we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash. 
 
 To solve this problem we use the `TRAP cleanup EXIT` pattern. The pattern is explained in great length in [this article here](https://www.linuxjournal.com/content/bash-trap-command), so I will only briefly show an example:
 ```bash
