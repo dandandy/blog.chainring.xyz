@@ -2,6 +2,7 @@
 title: "Simple Tips for Happy Bashing"
 date: 2020-10-03T23:31:23+10:00
 draft: false
+Author: "Daniel Barrett"
 ---
 
 [Bash (Bourne Again Shell)](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) is an incredibly common shell and scripting language in which any developer working on Linux and macOS based systems will inevitably come across. Because of this, Bash scripting skills are a formidible tool to have in your belt. However, Bash scripting is notoriously difficult due to its extensive nature and large feature set, which often leads to developers writing poor scripts.

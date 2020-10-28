@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Chainring</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 03 Oct 2020 23:31:23 +1000</lastBuildDate>
+    <lastBuildDate>Wed, 14 Oct 2020 18:32:02 +1100</lastBuildDate>
     
 	<atom:link href="https://blog.chainring.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Internet Performance Monitoring and Visualisation</title>
+      <link>https://blog.chainring.xyz/posts/internet_performance_monitoring/</link>
+      <pubDate>Wed, 14 Oct 2020 18:32:02 +1100</pubDate>
+      
+      <guid>https://blog.chainring.xyz/posts/internet_performance_monitoring/</guid>
+      <description>Internet is a slippery service to track due to the fluctuating and intangible nature of internet access. Some may take their Internet Service Provider&amp;rsquo;s (ISP) word that they are delivering internet performance that is up to the standard you are paying for, but not me. I can only shut my eyes at night with the confidence that my download and upload speeds, as well as latency, are up to scratch.</description>
+    </item>
     
     <item>
       <title>Simple Tips for Happy Bashing</title>
