@@ -28,6 +28,20 @@
     
     
 </ul>
+				
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'G-99WJ9TJF83', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
 			</div>
 		</nav>
 
@@ -108,20 +122,20 @@ filename <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</
 <h1 id="run-the-mysql-database">Run the MySQL Database</h1>
 <p>Whilst it&rsquo;s definitely possible to install and run the database directly on the host, I prefer to run the database in a container since it has a simpler installation and configuration process. With Docker, to install the database all you need to do is run a docker container, and to configure the database all we need to do is set environment variables in the container.</p>
 <p>To ensure data persistence, we mount the data directory from the container onto the host system to ensure we don&rsquo;t lose data between container restarts. Also, note we expose the port 3306 to the host so we can connect from the host to the MySQL process in the container.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;3.1&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.1&#39;</span>
 
-<span style="color:#66d9ef">services</span>:
-  <span style="color:#66d9ef">db</span>:
-    <span style="color:#66d9ef">image</span>: mysql:<span style="color:#ae81ff">8</span>
-    <span style="color:#66d9ef">restart</span>: always
-    <span style="color:#66d9ef">environment</span>:
-      <span style="color:#66d9ef">MYSQL_ROOT_PASSWORD</span>: goodpassword
-      <span style="color:#66d9ef">MYSQL_DATABASE</span>: HOME
-    <span style="color:#66d9ef">volumes</span>:
-      - ./data:/var/lib/mysql
-    <span style="color:#66d9ef">ports</span>:
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">db</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mysql:8</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#ae81ff">goodpassword</span>
+      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#ae81ff">HOME</span>
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">./data:/var/lib/mysql</span>
+    <span style="color:#f92672">ports</span>:
       - <span style="color:#ae81ff">3306</span>:<span style="color:#ae81ff">3306</span>
-    <span style="color:#66d9ef">restart</span>: always
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
 </code></pre></div><p>Start the database by recording the above yaml into a file called <code>docker-compose.yaml</code> and then run <code>docker-compose up -d</code> to start the container.</p>
 <h2 id="create-the-table">Create the table</h2>
 <p>We need a script to create a <code>network_logs</code> table in the database:</p>
@@ -174,23 +188,23 @@ Note that we set the PATH variables since when we set the crontab we need to set
 </code></pre></div><p>This crontab runs the script <code>speedtest/run.sh</code> every 5 minutes.</p>
 <h1 id="grafana-visualisation">Grafana Visualisation</h1>
 <p>Similar to the MySQL database, we run our visualisation tool Grafana with Docker:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
 
-<span style="color:#66d9ef">services</span>:
-  <span style="color:#66d9ef">grafana</span>:
-    <span style="color:#66d9ef">image</span>: grafana/grafana:<span style="color:#ae81ff">6.7.3</span>
-    <span style="color:#66d9ef">environment</span>:
-      <span style="color:#66d9ef">TZ</span>: Australia/Melbourne
-      <span style="color:#66d9ef">GF_INSTALL_PLUGINS</span>: <span style="color:#e6db74">&#39;btplc-trend-box-panel,pr0ps-trackmap-panel,grafana-strava-datasource&#39;</span>
-      <span style="color:#66d9ef">GF_STRAVA_DS_DATA_PATH</span>: /var/lib/grafana/strava
-    <span style="color:#66d9ef">ports</span>:
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">grafana</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">grafana/grafana:6.7.3</span>
+    <span style="color:#f92672">environment</span>:
+      <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Australia/Melbourne</span>
+      <span style="color:#f92672">GF_INSTALL_PLUGINS</span>: <span style="color:#e6db74">&#39;btplc-trend-box-panel,pr0ps-trackmap-panel,grafana-strava-datasource&#39;</span>
+      <span style="color:#f92672">GF_STRAVA_DS_DATA_PATH</span>: <span style="color:#ae81ff">/var/lib/grafana/strava</span>
+    <span style="color:#f92672">ports</span>:
       - <span style="color:#ae81ff">3000</span>:<span style="color:#ae81ff">3000</span>
-    <span style="color:#66d9ef">volumes</span>:
-      - grafanastorage:/var/lib/grafana
-    <span style="color:#66d9ef">restart</span>: always
+    <span style="color:#f92672">volumes</span>:
+      - <span style="color:#ae81ff">grafanastorage:/var/lib/grafana</span>
+    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
 
-<span style="color:#66d9ef">volumes</span>:
-  <span style="color:#66d9ef">grafanastorage</span>:
+<span style="color:#f92672">volumes</span>:
+  <span style="color:#f92672">grafanastorage</span>:
 </code></pre></div><p>Then run this file with <code>docker-compose up -d -f &lt;filename&gt;</code>.</p>
 <p>Then in a web browser go to <code>http://&lt;ip address of linux server&gt;:3000/</code> and login with the username <code>admin</code> and password <code>admin</code>.</p>
 <p>You will need to add a MySQL database and enter the details of your MySQL database you created earlier.</p>
@@ -510,7 +524,7 @@ Note that we set the PATH variables since when we set the crontab we need to set
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-02-20 12:30:58.244294 &#43;1100 AEDT m=&#43;0.092959404">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2021-03-07 13:32:55.574182 &#43;1100 AEDT m=&#43;0.119091436">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

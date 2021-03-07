@@ -28,6 +28,20 @@
     
     
 </ul>
+				
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'G-99WJ9TJF83', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
 			</div>
 		</nav>
 
@@ -58,13 +72,13 @@
 <p>We will need two containers, the first being a selenium container which we will use to drive the browser automation and the second being a python container which will drive the selenium container and command it to log in to our Strava accounts and give kudos to the activities.</p>
 <h1 id="the-selenium-container">The Selenium container</h1>
 <p>We run a selenium standalone firefox container and expose port 4444 so we can connect to it from our host system.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
-<span style="color:#66d9ef">services</span>:
-  <span style="color:#66d9ef">webdriver</span>:
-    <span style="color:#66d9ef">image</span>: selenium/standalone-firefox
-    <span style="color:#66d9ef">ports</span>:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
+<span style="color:#f92672">services</span>:
+  <span style="color:#f92672">webdriver</span>:
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">selenium/standalone-firefox</span>
+    <span style="color:#f92672">ports</span>:
       - <span style="color:#e6db74">&#34;4444:4444&#34;</span>
-    <span style="color:#66d9ef">shm_size</span>: <span style="color:#e6db74">&#39;2gb&#39;</span>
+    <span style="color:#f92672">shm_size</span>: <span style="color:#e6db74">&#39;2gb&#39;</span>
 </code></pre></div><h1 id="python-automation">Python Automation</h1>
 <p>Now we enter the meaty part of this post where we scrape the Strava website by logging in by automatically entering our username and password, then scroll through our activity feed and click on the <code>Kudo</code> button to give kudos to the activity.</p>
 <p>Note we require the following python packages installed:</p>
@@ -169,7 +183,7 @@ docker run --network<span style="color:#f92672">=</span>host -e USER<span style=
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-02-20 12:30:58.232528 &#43;1100 AEDT m=&#43;0.081193326">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2021-03-07 13:32:55.554783 &#43;1100 AEDT m=&#43;0.099693153">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

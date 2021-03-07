@@ -6,11 +6,7 @@
     <description>Recent content on Chainring</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 20 Jan 2021 09:32:29 +1100</lastBuildDate>
-    
-	<atom:link href="https://blog.chainring.xyz/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 20 Jan 2021 09:32:29 +1100</lastBuildDate><atom:link href="https://blog.chainring.xyz/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Lean Startup Definitions</title>
       <link>https://blog.chainring.xyz/posts/lean_startup_definitions/</link>

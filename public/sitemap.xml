@@ -1,43 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
     <loc>https://blog.chainring.xyz/</loc>
     <lastmod>2021-01-20T09:32:29+11:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/posts/</loc>
     <lastmod>2021-01-20T09:32:29+11:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/posts/lean_startup_definitions/</loc>
     <lastmod>2021-01-20T09:32:29+11:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/posts/strava_kudos_automation/</loc>
     <lastmod>2020-11-09T21:14:20+11:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/posts/internet_performance_monitoring/</loc>
     <lastmod>2020-10-14T18:32:02+11:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/posts/bash_tips/</loc>
     <lastmod>2020-10-03T23:31:23+10:00</lastmod>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/categories/</loc>
-  </url>
-  
-  <url>
+  </url><url>
     <loc>https://blog.chainring.xyz/tags/</loc>
   </url>
-  
 </urlset>
