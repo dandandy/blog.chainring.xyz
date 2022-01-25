@@ -29,7 +29,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 	</head>
 
     <body>
@@ -72,7 +71,7 @@ if (!doNotTrack) {
 <p>We will need two containers, the first being a selenium container which we will use to drive the browser automation and the second being a python container which will drive the selenium container and command it to log in to our Strava accounts and give kudos to the activities.</p>
 <h1 id="the-selenium-container">The Selenium container</h1>
 <p>We run a selenium standalone firefox container and expose port 4444 so we can connect to it from our host system.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
 <span style="color:#f92672">services</span>:
   <span style="color:#f92672">webdriver</span>:
     <span style="color:#f92672">image</span>: <span style="color:#ae81ff">selenium/standalone-firefox</span>
@@ -82,12 +81,12 @@ if (!doNotTrack) {
 </code></pre></div><h1 id="python-automation">Python Automation</h1>
 <p>Now we enter the meaty part of this post where we scrape the Strava website by logging in by automatically entering our username and password, then scroll through our activity feed and click on the <code>Kudo</code> button to give kudos to the activity.</p>
 <p>Note we require the following python packages installed:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">selenium
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">selenium
 </code></pre></div><p>Save that into a file called requirements.txt at the root of your project directory.</p>
 <h1 id="login-to-strava">Login to Strava</h1>
 <p>We read in the username and password from the environment variables, then enter the email and password elements and send the key commands to type. Then we hit the login button.
 The reason we read in the username and password from the environment variables is to avoid hard coding confidential data into the application and to also make the application reusable for different users. This follows the <a href="https://12factor.net/">12 Factor Application principles</a>.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> strava.driver <span style="color:#f92672">import</span> driver
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> strava.driver <span style="color:#f92672">import</span> driver
 <span style="color:#f92672">import</span> os
 
 USER <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>getenv(<span style="color:#e6db74">&#39;USER&#39;</span>)
@@ -105,7 +104,7 @@ login<span style="color:#f92672">.</span>click()
 </code></pre></div><p>Save this code in a file called login.py in a directory called Strava. In the next section, we will import the driver object.</p>
 <h1 id="kudo-the-activity-feed">Kudo the Activity Feed</h1>
 <p>We use the css selector <code>button.js-add-kudo</code> to find all of the kudos buttons on the activity feed on the screen. Then we loop through all of these elements and like them all, then proceed to scroll by executing the javascript <code>window.scrollTo(0,document.body.scrollHeight)</code> . Out of respect to Strava, we only scroll through our activity feed five times, and if before then we find no kudos buttons we exit out.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> time
 <span style="color:#f92672">from</span> strava.login <span style="color:#f92672">import</span> driver
 
 kudo_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
@@ -120,13 +119,13 @@ kudo_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</s
 
     driver<span style="color:#f92672">.</span>execute_script(<span style="color:#e6db74">&#34;window.scrollTo(0,document.body.scrollHeight)&#34;</span>)
 
-<span style="color:#66d9ef">print</span>(kudo_count)
+print(kudo_count)
 
 driver<span style="color:#f92672">.</span>close()
 </code></pre></div><p>Put this code in a file at the root of your project directory called kudos.py</p>
 <h2 id="dockerfile">Dockerfile</h2>
 <p>We build a Python-based docker image to install the requirements and run the code. This Dockerfile looks like:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> python:3.8-alpine</span><span style="color:#960050;background-color:#1e0010">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> python:3.8-alpine</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">WORKDIR</span><span style="color:#e6db74"> /app</span><span style="color:#960050;background-color:#1e0010">
 </span><span style="color:#960050;background-color:#1e0010">
@@ -137,7 +136,7 @@ driver<span style="color:#f92672">.</span>close()
 </span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;python3&#34;</span>, <span style="color:#e6db74">&#34;/app/kudos.py&#34;</span>]<span style="color:#960050;background-color:#1e0010">
 </span></code></pre></div><h1 id="execute-the-automation">Execute the automation</h1>
 <p>For simplicity, we automate the building, and running of the docker containers into one convenient script:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/env bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/env bash
 </span><span style="color:#75715e"></span>set -euo pipefail
 
 docker-compose up -d --remove-orphans
@@ -157,14 +156,14 @@ docker build . -t kudos
 docker run --network<span style="color:#f92672">=</span>host -e USER<span style="color:#f92672">=</span>$1 -e PASSWORD<span style="color:#f92672">=</span>$2 -e SERVER kudos
 </code></pre></div><p>Save this script into a file called <code>run.sh</code>.</p>
 <p>Invoke the script with the command:</p>
-<pre><code>bash run.sh &lt;STRAVA EMAIL ADDRESS&gt; &lt;STRAVA PASSWORD&gt;
+<pre tabindex="0"><code>bash run.sh &lt;STRAVA EMAIL ADDRESS&gt; &lt;STRAVA PASSWORD&gt;
 </code></pre><h1 id="schedule-the-kudos-automation">Schedule the Kudos Automation</h1>
 <p>If we add the path variable to the start of the script:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PATH<span style="color:#f92672">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PATH<span style="color:#f92672">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 </code></pre></div><p>then create a crontab entry by running the command:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">crontab -e
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">crontab -e
 </code></pre></div><p>and enter the following on a newline:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* 7-20 * * * run.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">* 7-20 * * * run.sh
 </code></pre></div><p>we will schedule the kudos automation to run every hour between 7 am and 8 pm.</p>
 
 
@@ -183,7 +182,7 @@ docker run --network<span style="color:#f92672">=</span>host -e USER<span style=
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-03-07 13:42:34.718454 &#43;1100 AEDT m=&#43;0.113101126">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-25 21:45:56.011938 &#43;1100 AEDT m=&#43;0.179750198">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

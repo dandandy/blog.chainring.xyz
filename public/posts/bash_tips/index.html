@@ -29,7 +29,6 @@ if (!doNotTrack) {
 	ga('send', 'pageview');
 }
 </script>
-
 	</head>
 
     <body>
@@ -75,14 +74,14 @@ if (!doNotTrack) {
 <h2 id="trapping-functions">Trapping Functions</h2>
 <p>Good little Bash scripts should always clean up after themselves when they are complete, however, as good developers we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash.</p>
 <p>To solve this problem we use the <code>TRAP cleanup EXIT</code> pattern. The pattern is explained in great length in <a href="https://www.linuxjournal.com/content/bash-trap-command">this article here</a>, so I will only briefly show an example:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
     <span style="color:#75715e"># some commands</span>
 <span style="color:#f92672">}</span>
 trap cleanup SIGINT
 trap cleanup EXIT
 </code></pre></div><p>A script with the above code snippet will run the cleanup function on either the <code>EXIT</code> or <code>SIGINT</code> signal, therefore we do not need to actually call the <code>cleanup</code> function directly in the script once we have included this trap, or else it will be invoked twice.</p>
 <p>A handy caveat to be aware of when using the <code>TRAP cleanup EXIT</code> pattern is that your script exit code may be changed by the commands in the cleanup function. Therefore, it can be handy to capture the exit code at the start of the cleanup function, and then apply it at the end, like so:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
     exit_code<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
     <span style="color:#75715e"># some commands</span>
     exit <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>exit_code<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
@@ -120,7 +119,7 @@ trap cleanup EXIT
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2021-03-07 13:42:34.705608 &#43;1100 AEDT m=&#43;0.100254836">2021</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-25 21:45:55.999383 &#43;1100 AEDT m=&#43;0.167194853">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
