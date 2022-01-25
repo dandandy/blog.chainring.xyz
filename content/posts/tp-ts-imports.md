@@ -26,9 +26,4 @@ import { Either } from "fp-ts/Either"
 
 By importing the Types separately we only need to write `Either` instead of `E.Either` in our type signatures, allowing for cleaner type signatures.
 
-In comparison to this simple import convention, if you were to just follow what your IDE imports you may end up with a mixture of qualified and unqualified imports based on the order you wrote your code. This is a problem because you need to mentally keep track of which file's `map` implentation you are dealing with.
-
-```
-import { map } from "fp-ts/Option
-import { }
-```
+In comparison to this simple import convention, IDE auto-imports are inadequate since they tend to prefer unqualified imports. Like I mentioned above, unqualified imports are not helpful in this instance because of the colliding namespaces of the different parts of the fp-ts library. 

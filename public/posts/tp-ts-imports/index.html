@@ -71,7 +71,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Option</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Option&#34;</span>
 <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Either</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Either&#34;</span>
 </code></pre></div><p>By importing the Types separately we only need to write <code>Either</code> instead of <code>E.Either</code> in our type signatures, allowing for cleaner type signatures.</p>
-<p>In comparison to this simple import convention, if you were to just follow what your IDE imports you may end up with a mixture of qualified and unqualified imports based on the order you wrote your code. This is a problem because you need to mentally keep track of which file&rsquo;s <code>map</code> implentation you are dealing with.</p>
+<p>In comparison to this simple import convention, IDE auto-imports are inadequate since they tend to prefer unqualified imports. Like I mentioned above, unqualified imports are not helpful in this instance because of the colliding namespaces of the different parts of the fp-ts library.</p>
 
 
 		
@@ -88,7 +88,7 @@ if (!doNotTrack) {
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-25 22:43:54.801233 &#43;1100 AEDT m=&#43;0.085927476">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-25 22:53:15.842303 &#43;1100 AEDT m=&#43;0.081921260">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
