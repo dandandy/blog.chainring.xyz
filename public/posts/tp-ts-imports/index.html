@@ -61,7 +61,7 @@ if (!doNotTrack) {
 		
 
 		<p>When using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are <a href="https://blog.atomist.com/typescript-imports/">other blog articles</a> that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concice than just doing what your IDE suggests.</p>
-<p>An import convention is necessary when using fp-ts because a lot of the different files in the libray have coliding namespaces. For example all of the functors have a <code>map</code> function. To get around this problem we should use qualified imports for all of the library files. The import should be qualified to the upper case initial of the file name. For example:</p>
+<p>An import convention is necessary when using fp-ts because a lot of the different files in the libray have coliding namespaces. For example by definition all functors have a <code>map</code> function. To get around this problem we should use qualified imports for all of the library files. The import should be qualified to the upper case initial of the file name. For example:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">O</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Option&#34;</span>
 <span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">E</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Either&#34;</span>
 ...
@@ -88,7 +88,7 @@ if (!doNotTrack) {
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-25 22:53:15.842303 &#43;1100 AEDT m=&#43;0.081921260">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-25 22:55:31.830633 &#43;1100 AEDT m=&#43;0.092288232">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
