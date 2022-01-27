@@ -13,7 +13,7 @@
       <pubDate>Tue, 25 Jan 2022 21:49:58 +1100</pubDate>
       
       <guid>https://blog.chainring.xyz/posts/tp-ts-imports/</guid>
-      <description>When using the fp-ts library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are other blog articles that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concice than just doing what your IDE suggests.</description>
+      <description>When using the fp-ts library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are other blog articles that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concise than just doing what your IDE suggests.</description>
     </item>
     
     <item>

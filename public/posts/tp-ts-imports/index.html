@@ -60,17 +60,17 @@ if (!doNotTrack) {
 
 		
 
-		<p>When using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are <a href="https://blog.atomist.com/typescript-imports/">other blog articles</a> that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concice than just doing what your IDE suggests.</p>
-<p>An import convention is necessary when using fp-ts because a lot of the different files in the libray have coliding namespaces. For example by definition all functors have a <code>map</code> function. To get around this problem we should use qualified imports for all of the library files. The import should be qualified to the upper case initial of the file name. For example:</p>
+		<p>When using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are <a href="https://blog.atomist.com/typescript-imports/">other blog articles</a> that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concise than just doing what your IDE suggests.</p>
+<p>An import convention is necessary when using fp-ts because a lot of the different files in the library have colliding namespaces. For example, by definition all functors have a <code>map</code> function. To get around this colliding namespace problem we should use qualified imports for all of the library files. The import should be qualified with the upper case initial of the file name:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">O</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Option&#34;</span>
 <span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">E</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Either&#34;</span>
 ...
 </code></pre></div><p>This way we can access map for Option and Either via <code>O.map</code> and <code>E.map</code> respectively.</p>
-<p>For the Types in each of the library files we have a separate import:</p>
+<p>For the types in each of the library files we have a separate import:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript">...
 <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Option</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Option&#34;</span>
 <span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Either</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Either&#34;</span>
-</code></pre></div><p>By importing the Types separately we only need to write <code>Either</code> instead of <code>E.Either</code> in our type signatures, allowing for cleaner type signatures.</p>
+</code></pre></div><p>By importing the types separately we only need to write <code>Either</code> instead of <code>E.Either</code> in our type signatures, allowing for cleaner type signatures.</p>
 <p>In comparison to this simple import convention, IDE auto-imports are inadequate since they tend to prefer unqualified imports. Like I mentioned above, unqualified imports are not helpful in this instance because of the colliding namespaces of the different parts of the fp-ts library.</p>
 
 
@@ -88,7 +88,7 @@ if (!doNotTrack) {
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-25 22:55:31.830633 &#43;1100 AEDT m=&#43;0.092288232">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-27 17:36:00.654298 &#43;1100 AEDT m=&#43;0.103564491">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
