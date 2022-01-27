@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Using the fp-ts IO &amp; Task monads together &middot; Chainring</title>
+
+		
+  		<link rel="stylesheet" href="/css/style.css">
+		<link rel="stylesheet" href="/css/fonts.css">
+		
+		<link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+
+		
+		<link href="" rel="alternate" type="application/rss+xml" title="Chainring" />
+		
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-191499897-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+	</head>
+
+    <body>
+        		<nav class="nav">
+			<div class="nav-container">
+				<a href="/">
+					<h2 class="nav-title">Chainring</h2>
+				</a>
+				<ul>
+    
+    
+</ul>
+			</div>
+		</nav>
+
+        
+
+<main>
+	<div class="post">
+		<div class="post-info">
+    <span>Written by</span>
+        
+        <br>
+        <span>on&nbsp;</span><time datetime="2022-01-27 17:36:30 &#43;1100 AEDT">January 27, 2022</time>
+</div>
+
+		<h1 class="post-title">Using the fp-ts IO &amp; Task monads together</h1>
+<div class="post-line"></div>
+
+		
+
+		<blockquote>
+<p>tldr: convert IO monads to Task monads</p>
+</blockquote>
+<p>Over the short while I&rsquo;ve been using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however luckily I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.</p>
+<p>This technique is useful when we have a function that does some kind of asynchronous action like an API call which also needs to handle Dates. We note that Dates in fp-ts are wrapped in the IO monad to maintain referential transparency. This conversion technique means that instead of the return signature being <code>IO&lt;Task&lt;A&gt;&gt;</code> it is <code>Task&lt;A&gt;</code>.</p>
+<h2 id="how-to-convert-an-io-monad-to-a-task-monad">How to convert an IO monad to a Task monad</h2>
+<p>In a Typescript project with the fp-ts library imported you can use the <a href="https://gcanti.github.io/fp-ts/modules/Task.ts.html#fromio">FromIO</a> function to convert an IO monad to a Task monad:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Task&#34;</span>
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Task</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Task&#34;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">D</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Date&#34;</span>
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">IO</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/IO&#34;</span>
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Task</span>&lt;<span style="color:#f92672">Date</span>&gt; <span style="color:#f92672">=</span>  <span style="color:#a6e22e">T</span>.<span style="color:#a6e22e">fromIO</span>(<span style="color:#a6e22e">D</span>.<span style="color:#a6e22e">create</span>)
+</code></pre></div><h2 id="why-is-converting-an-io-monad-to-a-task-monad-acceptable">Why is converting an IO monad to a Task monad acceptable</h2>
+<p>When we look at the interfaces defined for the IO and Task monads we notice that they are very similar with the only difference being that a Task always returns a promise:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IO</span>&lt;<span style="color:#f92672">A</span>&gt; {
+  ()<span style="color:#f92672">:</span> <span style="color:#a6e22e">A</span>
+}
+
+<span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Task</span>&lt;<span style="color:#f92672">A</span>&gt; {
+  ()<span style="color:#f92672">:</span> <span style="color:#a6e22e">Promise</span>&lt;<span style="color:#f92672">A</span>&gt;
+}
+</code></pre></div><p>(links to the relevant documentation <a href="https://gcanti.github.io/fp-ts/modules/Task.ts.html#task-overview">here</a> and <a href="https://gcanti.github.io/fp-ts/modules/IO.ts.html#io-overview">here</a>)</p>
+<p>This means that in theory we can define a Task in terms of an IO monad like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Task</span>&lt;<span style="color:#f92672">A</span>&gt; <span style="color:#f92672">=</span> <span style="color:#a6e22e">IO</span>&lt;<span style="color:#f92672">Promise</span><span style="color:#960050;background-color:#1e0010">&lt;</span><span style="color:#a6e22e">A</span>&gt;<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>which highlights at the fact that a Task is just an IO monad that returns a promise.</p>
+<h2 id="example">Example</h2>
+<p>Let&rsquo;s say we want to write a function that will send the current date via a fetch API call and return the response. We would write the function like so using the conversion technique:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Task&#34;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">TE</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/TaskEither&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ReaderTaskEither</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/ReaderTaskEither&#34;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">IO</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/IO&#34;</span>;
+<span style="color:#66d9ef">import</span> <span style="color:#a6e22e">axios</span>, { <span style="color:#a6e22e">AxiosResponse</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;axios&#34;</span>;
+<span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">pipe</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/lib/function&#34;</span>;
+
+<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">sendDate</span> <span style="color:#f92672">=</span> &lt;<span style="color:#f92672">A</span>&gt;(
+  <span style="color:#a6e22e">currentDate</span>: <span style="color:#66d9ef">IO.IO</span>&lt;<span style="color:#f92672">Date</span>&gt;
+)<span style="color:#f92672">:</span> <span style="color:#a6e22e">ReaderTaskEither</span><span style="color:#f92672">&lt;</span>{<span style="color:#a6e22e">url</span>: <span style="color:#66d9ef">string</span>}, Error, <span style="color:#a6e22e">AxiosResponse</span>&lt;<span style="color:#f92672">A</span>&gt;<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=&gt;</span> (<span style="color:#a6e22e">config</span><span style="color:#f92672">:</span> {<span style="color:#a6e22e">url</span>: <span style="color:#66d9ef">string</span>}) <span style="color:#f92672">=&gt;</span> {
+  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">pipe</span>(
+    <span style="color:#a6e22e">currentDate</span>,        <span style="color:#75715e">//  IO&lt;Date&gt;
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">T</span>.<span style="color:#a6e22e">fromIO</span>,           <span style="color:#75715e">//  Task&lt;Date&gt;
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">T</span>.<span style="color:#a6e22e">map</span>((<span style="color:#a6e22e">date</span>) <span style="color:#f92672">=&gt;</span>     <span style="color:#75715e">//  Task&lt;Task&lt;Date&gt;&gt;
+</span><span style="color:#75715e"></span>      <span style="color:#a6e22e">TE</span>.<span style="color:#a6e22e">tryCatch</span>(
+        () <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">axios</span>.<span style="color:#a6e22e">post</span>&lt;<span style="color:#f92672">A</span>&gt;(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">url</span>, { <span style="color:#a6e22e">date</span> }),
+        (<span style="color:#a6e22e">error</span>: <span style="color:#66d9ef">unknown</span>)<span style="color:#f92672">:</span> Error <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">new</span> Error(String(<span style="color:#a6e22e">error</span>))
+      )
+    ),
+    <span style="color:#a6e22e">T</span>.<span style="color:#a6e22e">flatten</span>           <span style="color:#75715e">//  Task&lt;Task&lt;Date&gt;&gt;
+</span><span style="color:#75715e"></span>  );
+};
+</code></pre></div><p>The comments in the snippet above show the types as we move through the pipe. Note that we could use <code>T.chain</code> instead of <code>T.map</code> which would avoid the need for the <code>T.flatten</code>.</p>
+
+
+		
+	</div>
+
+	<div class="pagination">
+		<a href="/posts/tp-ts-imports/" class="left arrow">&#8592;</a>
+
+		<a href="#" class="top">Top</a>
+	</div>
+</main>
+
+
+        		<footer>
+			
+			<span>
+			&copy; <time datetime="2022-01-27 18:30:42.424543 &#43;1100 AEDT m=&#43;0.128581757">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			</span>
+		</footer>
+
+    </body>
+</html>

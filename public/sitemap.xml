@@ -3,12 +3,15 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blog.chainring.xyz/</loc>
-    <lastmod>2022-01-25T21:49:58+11:00</lastmod>
-  </url><url>
-    <loc>https://blog.chainring.xyz/posts/tp-ts-imports/</loc>
-    <lastmod>2022-01-25T21:49:58+11:00</lastmod>
+    <lastmod>2022-01-27T17:36:30+11:00</lastmod>
   </url><url>
     <loc>https://blog.chainring.xyz/posts/</loc>
+    <lastmod>2022-01-27T17:36:30+11:00</lastmod>
+  </url><url>
+    <loc>https://blog.chainring.xyz/posts/tp-io-promise-monad/</loc>
+    <lastmod>2022-01-27T17:36:30+11:00</lastmod>
+  </url><url>
+    <loc>https://blog.chainring.xyz/posts/tp-ts-imports/</loc>
     <lastmod>2022-01-25T21:49:58+11:00</lastmod>
   </url><url>
     <loc>https://blog.chainring.xyz/posts/lean_startup_definitions/</loc>

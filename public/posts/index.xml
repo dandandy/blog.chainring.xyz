@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Chainring</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 25 Jan 2022 21:49:58 +1100</lastBuildDate><atom:link href="https://blog.chainring.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 27 Jan 2022 17:36:30 +1100</lastBuildDate><atom:link href="https://blog.chainring.xyz/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Using the fp-ts IO &amp; Task monads together</title>
+      <link>https://blog.chainring.xyz/posts/tp-io-promise-monad/</link>
+      <pubDate>Thu, 27 Jan 2022 17:36:30 +1100</pubDate>
+      
+      <guid>https://blog.chainring.xyz/posts/tp-io-promise-monad/</guid>
+      <description>tldr: convert IO monads to Task monads
+ Over the short while I&amp;rsquo;ve been using the fp-ts library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however luckily I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.</description>
+    </item>
+    
     <item>
       <title>fp-ts Simple Import Convention</title>
       <link>https://blog.chainring.xyz/posts/tp-ts-imports/</link>
