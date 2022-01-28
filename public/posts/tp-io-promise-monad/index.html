@@ -63,8 +63,8 @@ if (!doNotTrack) {
 		<blockquote>
 <p>tldr: convert IO monads to Task monads</p>
 </blockquote>
-<p>Over the short while I&rsquo;ve been using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however luckily I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.</p>
-<p>This technique is useful when we have a function that does some kind of asynchronous action like an API call which also needs to handle Dates. We note that Dates in fp-ts are wrapped in the IO monad to maintain referential transparency. This conversion technique means that instead of the return signature being <code>IO&lt;Task&lt;A&gt;&gt;</code> it is <code>Task&lt;A&gt;</code>.</p>
+<p>Over the short while I&rsquo;ve been using the <a href="https://gcanti.github.io/fp-ts/">fp-ts</a> library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.</p>
+<p>This technique is useful when we have a function that does some kind of asynchronous action like an API call which also needs to handle Dates. We note that Dates in fp-ts are wrapped in the IO monad to maintain <a href="https://en.wikipedia.org/wiki/Referential_transparency">referential transparency</a>. This conversion technique means that instead of having a return signature of <code>IO&lt;Task&lt;A&gt;&gt;</code> it is simply <code>Task&lt;A&gt;</code>.</p>
 <h2 id="how-to-convert-an-io-monad-to-a-task-monad">How to convert an IO monad to a Task monad</h2>
 <p>In a Typescript project with the fp-ts library imported you can use the <a href="https://gcanti.github.io/fp-ts/modules/Task.ts.html#fromio">FromIO</a> function to convert an IO monad to a Task monad:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">T</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/Task&#34;</span>
@@ -127,7 +127,7 @@ if (!doNotTrack) {
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-27 18:30:42.424543 &#43;1100 AEDT m=&#43;0.128581757">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-28 14:53:31.276059 &#43;1100 AEDT m=&#43;0.103932470">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
