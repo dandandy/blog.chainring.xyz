@@ -6,7 +6,7 @@ draft: false
 
 > tldr: convert IO monads to Task monads 
 
-Over the short while I've been using the [fp-ts](https://gcanti.github.io/fp-ts/) library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however luckily I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.
+Over the short while I've been using the [fp-ts](https://gcanti.github.io/fp-ts/) library I have found it a challenge to use different monads together. One case I recently came across was using the IO and Task monads together, however I came up with a simple solution: convert IO monads to Task monads, then proceed as usual with Task Monads. In this blog post I want to show how to convert an IO monad to a Task monad and why it is ok to do this.
 
 This technique is useful when we have a function that does some kind of asynchronous action like an API call which also needs to handle Dates. We note that Dates in fp-ts are wrapped in the IO monad to maintain referential transparency. This conversion technique means that instead of the return signature being `IO<Task<A>>` it is `Task<A>`.
 
