@@ -2,6 +2,7 @@
 title: "fp-ts Simple Import Convention"
 date: 2022-01-25T21:49:58+11:00
 draft: false
+Author: "Daniel Barrett"
 ---
 
 When using the [fp-ts](https://gcanti.github.io/fp-ts/) library we can end up with files containing many imports of different functors, applicative or monads. Managing fp-ts library imports can be a challenge because Typescript offers us many different ways to import libraries. There are [other blog articles](https://blog.atomist.com/typescript-imports/) that already break down the different ways we can import libraries, but due to the nature of fp-ts I suggest this simple import convention which will make your code more understandable and concise than just doing what your IDE suggests.

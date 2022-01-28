@@ -2,6 +2,7 @@
 title: "Using the fp-ts IO & Task monads together"
 date: 2022-01-27T17:36:30+11:00
 draft: false
+author: Daniel Barrett
 ---
 
 > tldr: convert IO monads to Task monads 

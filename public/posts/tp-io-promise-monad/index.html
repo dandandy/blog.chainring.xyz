@@ -50,7 +50,7 @@ if (!doNotTrack) {
 	<div class="post">
 		<div class="post-info">
     <span>Written by</span>
-        
+        Daniel Barrett
         <br>
         <span>on&nbsp;</span><time datetime="2022-01-27 17:36:30 &#43;1100 AEDT">January 27, 2022</time>
 </div>
@@ -73,7 +73,7 @@ if (!doNotTrack) {
 <span style="color:#66d9ef">import</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">IO</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fp-ts/IO&#34;</span>
 
 <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">Task</span>&lt;<span style="color:#f92672">Date</span>&gt; <span style="color:#f92672">=</span>  <span style="color:#a6e22e">T</span>.<span style="color:#a6e22e">fromIO</span>(<span style="color:#a6e22e">D</span>.<span style="color:#a6e22e">create</span>)
-</code></pre></div><h2 id="why-is-converting-an-io-monad-to-a-task-monad-acceptable">Why is converting an IO monad to a Task monad acceptable</h2>
+</code></pre></div><h2 id="why-converting-an-io-monad-to-a-task-monad-is-acceptable">Why converting an IO monad to a Task monad is acceptable</h2>
 <p>When we look at the interfaces defined for the IO and Task monads we notice that they are very similar with the only difference being that a Task always returns a promise:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Typescript" data-lang="Typescript"><span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">IO</span>&lt;<span style="color:#f92672">A</span>&gt; {
   ()<span style="color:#f92672">:</span> <span style="color:#a6e22e">A</span>
@@ -127,7 +127,7 @@ if (!doNotTrack) {
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-28 14:53:31.276059 &#43;1100 AEDT m=&#43;0.103932470">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-01-28 17:52:05.311138 &#43;1100 AEDT m=&#43;0.093824037">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
