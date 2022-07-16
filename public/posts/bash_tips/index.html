@@ -74,21 +74,21 @@ if (!doNotTrack) {
 <h2 id="trapping-functions">Trapping Functions</h2>
 <p>Good little Bash scripts should always clean up after themselves when they are complete, however, as good developers we need to make sure we tell them to. Whilst it is simple to write a script that cleans up at the end, you need to also accommodate the scenario where the script my exit early due to a signal to exit or a crash.</p>
 <p>To solve this problem we use the <code>TRAP cleanup EXIT</code> pattern. The pattern is explained in great length in <a href="https://www.linuxjournal.com/content/bash-trap-command">this article here</a>, so I will only briefly show an example:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    <span style="color:#75715e"># some commands</span>
-<span style="color:#f92672">}</span>
-trap cleanup SIGINT
-trap cleanup EXIT
-</code></pre></div><p>A script with the above code snippet will run the cleanup function on either the <code>EXIT</code> or <code>SIGINT</code> signal, therefore we do not need to actually call the <code>cleanup</code> function directly in the script once we have included this trap, or else it will be invoked twice.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># some commands</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>trap cleanup SIGINT
+</span></span><span style="display:flex;"><span>trap cleanup EXIT
+</span></span></code></pre></div><p>A script with the above code snippet will run the cleanup function on either the <code>EXIT</code> or <code>SIGINT</code> signal, therefore we do not need to actually call the <code>cleanup</code> function directly in the script once we have included this trap, or else it will be invoked twice.</p>
 <p>A handy caveat to be aware of when using the <code>TRAP cleanup EXIT</code> pattern is that your script exit code may be changed by the commands in the cleanup function. Therefore, it can be handy to capture the exit code at the start of the cleanup function, and then apply it at the end, like so:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-    exit_code<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-    <span style="color:#75715e"># some commands</span>
-    exit <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>exit_code<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
-<span style="color:#f92672">}</span>
-trap cleanup SIGINT
-trap cleanup EXIT
-</code></pre></div><hr>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> cleanup<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    exit_code<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>?<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># some commands</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>exit_code<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>trap cleanup SIGINT
+</span></span><span style="display:flex;"><span>trap cleanup EXIT
+</span></span></code></pre></div><hr>
 <h2 id="shellcheck">Shellcheck</h2>
 <p>Bash scripting can be quite difficult because there are always multiple ways to cut your code, and no matter which way you choose to slice, you always run the risk of getting hurt. Thankfully there are ways to automatically check your code via static code analysis to keep your hands unscathed.</p>
 <p><a href="https://github.com/koalaman/shellcheck">Shellcheck</a> is a great static code analysis tool to ensure you follow best practices and avoid silly mistakes. Shellcheck fits in very nicely in continuous integration pipelines since it is fast and can be run via docker (<code>docker run --rm -v &quot;$PWD:/mnt&quot; koalaman/shellcheck:stable myscript</code>). The output of shellcheck is also particularly useful since all rule violations include a link to a webpage explaining why this code is bad, and how to fix it.</p>
@@ -119,7 +119,7 @@ trap cleanup EXIT
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-28 17:52:05.300539 &#43;1100 AEDT m=&#43;0.083225321">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-07-17 00:30:06.55034 &#43;1000 AEST m=&#43;0.244715580">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 

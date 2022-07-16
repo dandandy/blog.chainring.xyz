@@ -79,434 +79,434 @@ command line interface, then transform the results into a structure suited for i
 <p><a href="https://www.speedtest.net/">Ookla</a> provides the <a href="https://www.speedtest.net/apps/cli">speedtest command line tool</a> which we will use to run the command line test and output the results in a csv format with the arguments: <code>speedtest --progress=no --format=csv --output-header</code></p>
 <h2 id="dockerised-speedtest">Dockerised SpeedTest</h2>
 <p>For portability and stability, I prefer to package up tools into Docker containers. My speedtest Dockerfile looks like:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu:bionic</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> INSTALL_KEY<span style="color:#f92672">=</span>379CE192D401AB61
-<span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install gnupg1 apt-transport-https dirmngr -y<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> export DEB_DISTRO<span style="color:#f92672">=</span>bionic <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $INSTALL_KEY <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    echo <span style="color:#e6db74">&#34;deb https://ookla.bintray.com/debian </span><span style="color:#e6db74">${</span>DEB_DISTRO<span style="color:#e6db74">}</span><span style="color:#e6db74"> main&#34;</span> | tee  /etc/apt/sources.list.d/speedtest.list <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    apt-get update <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
-</span><span style="color:#ae81ff"></span>    apt-get install speedtest -y<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> speedtest --accept-license<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;speedtest&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>Place the above snippet in a file called <code>Dockerfile</code> and then when in the same directory as the file run the command <code>docker build . -t speedtest</code> to build the container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> ubuntu:bionic</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENV</span> INSTALL_KEY<span style="color:#f92672">=</span>379CE192D401AB61
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get install gnupg1 apt-transport-https dirmngr -y<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> export DEB_DISTRO<span style="color:#f92672">=</span>bionic <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys $INSTALL_KEY <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    echo <span style="color:#e6db74">&#34;deb https://ookla.bintray.com/debian </span><span style="color:#e6db74">${</span>DEB_DISTRO<span style="color:#e6db74">}</span><span style="color:#e6db74"> main&#34;</span> | tee  /etc/apt/sources.list.d/speedtest.list <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    apt-get update <span style="color:#f92672">&amp;&amp;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    apt-get install speedtest -y<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">RUN</span> speedtest --accept-license<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;speedtest&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>Place the above snippet in a file called <code>Dockerfile</code> and then when in the same directory as the file run the command <code>docker build . -t speedtest</code> to build the container.</p>
 <h1 id="transform-the-data">Transform the Data</h1>
 <p>Whilst conveniently, the speedtest cli will output to csv, we need to do a slight transformation of the data to import it into the database.</p>
 <p>The script we will use to transform the data is</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sys
-
-filename <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>]
-
-<span style="color:#66d9ef">with</span> open(filename, <span style="color:#e6db74">&#34;r&#34;</span>) <span style="color:#66d9ef">as</span> f:
-    lines <span style="color:#f92672">=</span> [line<span style="color:#f92672">.</span>strip() <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f<span style="color:#f92672">.</span>readlines()]
-    headings <span style="color:#f92672">=</span> lines[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)
-    values <span style="color:#f92672">=</span> lines[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)
-
-    <span style="color:#66d9ef">for</span> i, h <span style="color:#f92672">in</span> enumerate(headings):
-        cur_heading <span style="color:#f92672">=</span> h
-        cur_value <span style="color:#f92672">=</span> values[i]
-        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>cur_heading<span style="color:#e6db74">}</span><span style="color:#e6db74">,</span><span style="color:#e6db74">{</span>cur_value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
-</code></pre></div><p>This script will read the first argument (which should be a file name), then parse the results. It will print out the transformed data to standard out.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">import</span> sys
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>filename <span style="color:#f92672">=</span> sys<span style="color:#f92672">.</span>argv[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">with</span> open(filename, <span style="color:#e6db74">&#34;r&#34;</span>) <span style="color:#66d9ef">as</span> f:
+</span></span><span style="display:flex;"><span>    lines <span style="color:#f92672">=</span> [line<span style="color:#f92672">.</span>strip() <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f<span style="color:#f92672">.</span>readlines()]
+</span></span><span style="display:flex;"><span>    headings <span style="color:#f92672">=</span> lines[<span style="color:#ae81ff">0</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>    values <span style="color:#f92672">=</span> lines[<span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;,&#34;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> i, h <span style="color:#f92672">in</span> enumerate(headings):
+</span></span><span style="display:flex;"><span>        cur_heading <span style="color:#f92672">=</span> h
+</span></span><span style="display:flex;"><span>        cur_value <span style="color:#f92672">=</span> values[i]
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{</span>cur_heading<span style="color:#e6db74">}</span><span style="color:#e6db74">,</span><span style="color:#e6db74">{</span>cur_value<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>)
+</span></span></code></pre></div><p>This script will read the first argument (which should be a file name), then parse the results. It will print out the transformed data to standard out.</p>
 <h2 id="dockerise-the-transform-script">Dockerise the Transform script</h2>
 <p>Use the following Dockerfile to build a container which runs the transform script from the previous section</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-dockerfile" data-lang="dockerfile"><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> python:3.8-alpine</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> transform.py .<span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010">
-</span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;python3&#34;</span>, <span style="color:#e6db74">&#34;transform.py&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></code></pre></div><p>To build the docker container run <code>docker build . -t transform</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span><span style="color:#e6db74"> python:3.8-alpine</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">COPY</span> transform.py .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;python3&#34;</span>, <span style="color:#e6db74">&#34;transform.py&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><p>To build the docker container run <code>docker build . -t transform</code>.</p>
 <h1 id="run-the-mysql-database">Run the MySQL Database</h1>
 <p>Whilst it&rsquo;s definitely possible to install and run the database directly on the host, I prefer to run the database in a container since it has a simpler installation and configuration process. With Docker, to install the database all you need to do is run a docker container, and to configure the database all we need to do is set environment variables in the container.</p>
 <p>To ensure data persistence, we mount the data directory from the container onto the host system to ensure we don&rsquo;t lose data between container restarts. Also, note we expose the port 3306 to the host so we can connect from the host to the MySQL process in the container.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.1&#39;</span>
-
-<span style="color:#f92672">services</span>:
-  <span style="color:#f92672">db</span>:
-    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mysql:8</span>
-    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
-    <span style="color:#f92672">environment</span>:
-      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#ae81ff">goodpassword</span>
-      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#ae81ff">HOME</span>
-    <span style="color:#f92672">volumes</span>:
-      - <span style="color:#ae81ff">./data:/var/lib/mysql</span>
-    <span style="color:#f92672">ports</span>:
-      - <span style="color:#ae81ff">3306</span>:<span style="color:#ae81ff">3306</span>
-    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
-</code></pre></div><p>Start the database by recording the above yaml into a file called <code>docker-compose.yaml</code> and then run <code>docker-compose up -d</code> to start the container.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3.1&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">db</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">mysql:8</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_ROOT_PASSWORD</span>: <span style="color:#ae81ff">goodpassword</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">MYSQL_DATABASE</span>: <span style="color:#ae81ff">HOME</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">./data:/var/lib/mysql</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">3306</span>:<span style="color:#ae81ff">3306</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span></code></pre></div><p>Start the database by recording the above yaml into a file called <code>docker-compose.yaml</code> and then run <code>docker-compose up -d</code> to start the container.</p>
 <h2 id="create-the-table">Create the table</h2>
 <p>We need a script to create a <code>network_logs</code> table in the database:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> network_logs ( 
-    metric VARCHAR(<span style="color:#ae81ff">255</span>),
-    value DOUBLE,
-    ts <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>
-);
-</code></pre></div><p>Record this script in a file called <code>create.sql</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">EXISTS</span> network_logs ( 
+</span></span><span style="display:flex;"><span>    metric VARCHAR(<span style="color:#ae81ff">255</span>),
+</span></span><span style="display:flex;"><span>    value DOUBLE,
+</span></span><span style="display:flex;"><span>    ts <span style="color:#66d9ef">TIMESTAMP</span> <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CURRENT_TIMESTAMP</span>
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>Record this script in a file called <code>create.sql</code>.</p>
 <h1 id="script-it-all-together">Script it all together</h1>
 <p>Now that we have a speedtest container, a transform container and a MySQL container, we can look at scripting the data importing process.</p>
 <p>First we set some variables which we will use later:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">host<span style="color:#f92672">=</span>localhost
-user<span style="color:#f92672">=</span>root
-password<span style="color:#f92672">=</span>goodpassword
-database<span style="color:#f92672">=</span>HOME
-</code></pre></div><p>We run the speedtest container:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run speedtest --progress<span style="color:#f92672">=</span>no --format<span style="color:#f92672">=</span>csv --output-header &gt; /home/daniel/speedtest/data/data.csv
-</code></pre></div><p>This writes the output from the speedtest into a data.csv file.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>host<span style="color:#f92672">=</span>localhost
+</span></span><span style="display:flex;"><span>user<span style="color:#f92672">=</span>root
+</span></span><span style="display:flex;"><span>password<span style="color:#f92672">=</span>goodpassword
+</span></span><span style="display:flex;"><span>database<span style="color:#f92672">=</span>HOME
+</span></span></code></pre></div><p>We run the speedtest container:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run speedtest --progress<span style="color:#f92672">=</span>no --format<span style="color:#f92672">=</span>csv --output-header &gt; /home/daniel/speedtest/data/data.csv
+</span></span></code></pre></div><p>This writes the output from the speedtest into a data.csv file.</p>
 <p>Next, we transform the data:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -v /home/daniel/speedtest/data:/data transform /data/data.csv &gt; /home/daniel/speedtest/data/transform.csv
-</code></pre></div><p>We mount the data.csv file from the host into the docker container so it can be read, then write the output to transform.csv.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -v /home/daniel/speedtest/data:/data transform /data/data.csv &gt; /home/daniel/speedtest/data/transform.csv
+</span></span></code></pre></div><p>We mount the data.csv file from the host into the docker container so it can be read, then write the output to transform.csv.</p>
 <p>Then, we create the required tables in the database:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/create.sql
-</code></pre></div><p>Finally, we insert the data into the table:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql:8 mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/insert.sql
-</code></pre></div><p>All together, the script should look like</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/env bash
-</span><span style="color:#75715e"></span>PATH<span style="color:#f92672">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
-set -euox pipefail
-
-host<span style="color:#f92672">=</span>localhost
-user<span style="color:#f92672">=</span>root
-password<span style="color:#f92672">=</span>goodpassword
-database<span style="color:#f92672">=</span>HOME
-
-docker run speedtest --progress<span style="color:#f92672">=</span>no --format<span style="color:#f92672">=</span>csv --output-header &gt; /home/daniel/speedtest/data/data.csv
-docker run -v /home/daniel/speedtest/data:/data transform /data/data.csv &gt; /home/daniel/speedtest/data/transform.csv
-
-docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/create.sql
-docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql:8 mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/insert.sql
-</code></pre></div><p>Save this in a file called <code>run.sh</code>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/create.sql
+</span></span></code></pre></div><p>Finally, we insert the data into the table:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql:8 mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/insert.sql
+</span></span></code></pre></div><p>All together, the script should look like</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PATH<span style="color:#f92672">=</span>/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+</span></span><span style="display:flex;"><span>set -euox pipefail
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>host<span style="color:#f92672">=</span>localhost
+</span></span><span style="display:flex;"><span>user<span style="color:#f92672">=</span>root
+</span></span><span style="display:flex;"><span>password<span style="color:#f92672">=</span>goodpassword
+</span></span><span style="display:flex;"><span>database<span style="color:#f92672">=</span>HOME
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docker run speedtest --progress<span style="color:#f92672">=</span>no --format<span style="color:#f92672">=</span>csv --output-header &gt; /home/daniel/speedtest/data/data.csv
+</span></span><span style="display:flex;"><span>docker run -v /home/daniel/speedtest/data:/data transform /data/data.csv &gt; /home/daniel/speedtest/data/transform.csv
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/create.sql
+</span></span><span style="display:flex;"><span>docker run -i --net<span style="color:#f92672">=</span>host -v /home/daniel/speedtest/data:/data mysql:8 mysql --local-infile<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> -h <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>host<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -u <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>password<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> --database<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>database<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> &lt; /home/daniel/speedtest/insert.sql
+</span></span></code></pre></div><p>Save this in a file called <code>run.sh</code>
 Note that we set the PATH variables since when we set the crontab we need to set the PATH variable outselves.</p>
 <h1 id="schedule-the-script-with-crontab">Schedule the script with Crontab</h1>
 <p>Crontabs are a convient way to schedule scripts to run on a regular schedule.</p>
 <p>To edit the crontab file, use <code>crontab -e</code>. We then edit the crontab file with (Vi)[https://en.wikipedia.org/wiki/Vi] commands.</p>
 <p>Here is a link to a reference on (how to write crontabs)[https://www.adminschoice.com/crontab-quick-reference].</p>
 <p>And here is an example of a crontab I used to run my application:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">*/5 * * * * speedtest/run.sh
-</code></pre></div><p>This crontab runs the script <code>speedtest/run.sh</code> every 5 minutes.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*/5 * * * * speedtest/run.sh
+</span></span></code></pre></div><p>This crontab runs the script <code>speedtest/run.sh</code> every 5 minutes.</p>
 <h1 id="grafana-visualisation">Grafana Visualisation</h1>
 <p>Similar to the MySQL database, we run our visualisation tool Grafana with Docker:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
-
-<span style="color:#f92672">services</span>:
-  <span style="color:#f92672">grafana</span>:
-    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">grafana/grafana:6.7.3</span>
-    <span style="color:#f92672">environment</span>:
-      <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Australia/Melbourne</span>
-      <span style="color:#f92672">GF_INSTALL_PLUGINS</span>: <span style="color:#e6db74">&#39;btplc-trend-box-panel,pr0ps-trackmap-panel,grafana-strava-datasource&#39;</span>
-      <span style="color:#f92672">GF_STRAVA_DS_DATA_PATH</span>: <span style="color:#ae81ff">/var/lib/grafana/strava</span>
-    <span style="color:#f92672">ports</span>:
-      - <span style="color:#ae81ff">3000</span>:<span style="color:#ae81ff">3000</span>
-    <span style="color:#f92672">volumes</span>:
-      - <span style="color:#ae81ff">grafanastorage:/var/lib/grafana</span>
-    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
-
-<span style="color:#f92672">volumes</span>:
-  <span style="color:#f92672">grafanastorage</span>:
-</code></pre></div><p>Then run this file with <code>docker-compose up -d -f &lt;filename&gt;</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">version</span>: <span style="color:#e6db74">&#39;3&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">services</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">grafana</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">grafana/grafana:6.7.3</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">environment</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">TZ</span>: <span style="color:#ae81ff">Australia/Melbourne</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">GF_INSTALL_PLUGINS</span>: <span style="color:#e6db74">&#39;btplc-trend-box-panel,pr0ps-trackmap-panel,grafana-strava-datasource&#39;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">GF_STRAVA_DS_DATA_PATH</span>: <span style="color:#ae81ff">/var/lib/grafana/strava</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">ports</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">3000</span>:<span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">grafanastorage:/var/lib/grafana</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">restart</span>: <span style="color:#ae81ff">always</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">volumes</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">grafanastorage</span>:
+</span></span></code></pre></div><p>Then run this file with <code>docker-compose up -d -f &lt;filename&gt;</code>.</p>
 <p>Then in a web browser go to <code>http://&lt;ip address of linux server&gt;:3000/</code> and login with the username <code>admin</code> and password <code>admin</code>.</p>
 <p>You will need to add a MySQL database and enter the details of your MySQL database you created earlier.</p>
 <p>You can then play around and try to create your own dashboard. Alternatively, if you have followed the above steps exactly, then you can copy my Grafana dashboard JSON model, found at the bottom of this document.</p>
 <h1 id="my-internet-performance-grafana-dashboard-model">My Internet Performance Grafana Dashboard Model</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
-  <span style="color:#f92672">&#34;annotations&#34;</span>: {
-    <span style="color:#f92672">&#34;list&#34;</span>: [
-      {
-        <span style="color:#f92672">&#34;builtIn&#34;</span>: <span style="color:#ae81ff">1</span>,
-        <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#e6db74">&#34;-- Grafana --&#34;</span>,
-        <span style="color:#f92672">&#34;enable&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;hide&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;iconColor&#34;</span>: <span style="color:#e6db74">&#34;rgba(0, 211, 255, 1)&#34;</span>,
-        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Annotations &amp; Alerts&#34;</span>,
-        <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;dashboard&#34;</span>
-      }
-    ]
-  },
-  <span style="color:#f92672">&#34;editable&#34;</span>: <span style="color:#66d9ef">true</span>,
-  <span style="color:#f92672">&#34;gnetId&#34;</span>: <span style="color:#66d9ef">null</span>,
-  <span style="color:#f92672">&#34;graphTooltip&#34;</span>: <span style="color:#ae81ff">0</span>,
-  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
-  <span style="color:#f92672">&#34;links&#34;</span>: [],
-  <span style="color:#f92672">&#34;panels&#34;</span>: [
-    {
-      <span style="color:#f92672">&#34;aliasColors&#34;</span>: {},
-      <span style="color:#f92672">&#34;bars&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;dashLength&#34;</span>: <span style="color:#ae81ff">10</span>,
-      <span style="color:#f92672">&#34;dashes&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;fill&#34;</span>: <span style="color:#ae81ff">1</span>,
-      <span style="color:#f92672">&#34;fillGradient&#34;</span>: <span style="color:#ae81ff">0</span>,
-      <span style="color:#f92672">&#34;gridPos&#34;</span>: {
-        <span style="color:#f92672">&#34;h&#34;</span>: <span style="color:#ae81ff">9</span>,
-        <span style="color:#f92672">&#34;w&#34;</span>: <span style="color:#ae81ff">24</span>,
-        <span style="color:#f92672">&#34;x&#34;</span>: <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&#34;y&#34;</span>: <span style="color:#ae81ff">0</span>
-      },
-      <span style="color:#f92672">&#34;hiddenSeries&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">4</span>,
-      <span style="color:#f92672">&#34;legend&#34;</span>: {
-        <span style="color:#f92672">&#34;alignAsTable&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;avg&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;current&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;rightSide&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;values&#34;</span>: <span style="color:#66d9ef">true</span>
-      },
-      <span style="color:#f92672">&#34;lines&#34;</span>: <span style="color:#66d9ef">true</span>,
-      <span style="color:#f92672">&#34;linewidth&#34;</span>: <span style="color:#ae81ff">1</span>,
-      <span style="color:#f92672">&#34;nullPointMode&#34;</span>: <span style="color:#e6db74">&#34;null&#34;</span>,
-      <span style="color:#f92672">&#34;options&#34;</span>: {
-        <span style="color:#f92672">&#34;dataLinks&#34;</span>: []
-      },
-      <span style="color:#f92672">&#34;percentage&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;pointradius&#34;</span>: <span style="color:#ae81ff">2</span>,
-      <span style="color:#f92672">&#34;points&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;renderer&#34;</span>: <span style="color:#e6db74">&#34;flot&#34;</span>,
-      <span style="color:#f92672">&#34;seriesOverrides&#34;</span>: [],
-      <span style="color:#f92672">&#34;spaceLength&#34;</span>: <span style="color:#ae81ff">10</span>,
-      <span style="color:#f92672">&#34;stack&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;steppedLine&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;targets&#34;</span>: [
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;time_series&#34;</span>,
-          <span style="color:#f92672">&#34;group&#34;</span>: [],
-          <span style="color:#f92672">&#34;metricColumn&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
-          <span style="color:#f92672">&#34;rawQuery&#34;</span>: <span style="color:#66d9ef">false</span>,
-          <span style="color:#f92672">&#34;rawSql&#34;</span>: <span style="color:#e6db74">&#34;SELECT\n  ts AS \&#34;time\&#34;,\n  metric AS metric,\n  value\nFROM network_logs\nWHERE\n  $__timeFilter(ts) AND\n  metric = &#39;latency&#39;\nORDER BY ts&#34;</span>,
-          <span style="color:#f92672">&#34;refId&#34;</span>: <span style="color:#e6db74">&#34;A&#34;</span>,
-          <span style="color:#f92672">&#34;select&#34;</span>: [
-            [
-              {
-                <span style="color:#f92672">&#34;params&#34;</span>: [
-                  <span style="color:#e6db74">&#34;value&#34;</span>
-                ],
-                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;column&#34;</span>
-              }
-            ]
-          ],
-          <span style="color:#f92672">&#34;table&#34;</span>: <span style="color:#e6db74">&#34;network_logs&#34;</span>,
-          <span style="color:#f92672">&#34;timeColumn&#34;</span>: <span style="color:#e6db74">&#34;ts&#34;</span>,
-          <span style="color:#f92672">&#34;timeColumnType&#34;</span>: <span style="color:#e6db74">&#34;timestamp&#34;</span>,
-          <span style="color:#f92672">&#34;where&#34;</span>: [
-            {
-              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;$__timeFilter&#34;</span>,
-              <span style="color:#f92672">&#34;params&#34;</span>: [],
-              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;macro&#34;</span>
-            },
-            {
-              <span style="color:#f92672">&#34;datatype&#34;</span>: <span style="color:#e6db74">&#34;varchar&#34;</span>,
-              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-              <span style="color:#f92672">&#34;params&#34;</span>: [
-                <span style="color:#e6db74">&#34;metric&#34;</span>,
-                <span style="color:#e6db74">&#34;=&#34;</span>,
-                <span style="color:#e6db74">&#34;&#39;latency&#39;&#34;</span>
-              ],
-              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;expression&#34;</span>
-            }
-          ]
-        }
-      ],
-      <span style="color:#f92672">&#34;thresholds&#34;</span>: [],
-      <span style="color:#f92672">&#34;timeFrom&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;timeRegions&#34;</span>: [],
-      <span style="color:#f92672">&#34;timeShift&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Latency&#34;</span>,
-      <span style="color:#f92672">&#34;tooltip&#34;</span>: {
-        <span style="color:#f92672">&#34;shared&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;sort&#34;</span>: <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&#34;value_type&#34;</span>: <span style="color:#e6db74">&#34;individual&#34;</span>
-      },
-      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;graph&#34;</span>,
-      <span style="color:#f92672">&#34;xaxis&#34;</span>: {
-        <span style="color:#f92672">&#34;buckets&#34;</span>: <span style="color:#66d9ef">null</span>,
-        <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;time&#34;</span>,
-        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#66d9ef">null</span>,
-        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;values&#34;</span>: []
-      },
-      <span style="color:#f92672">&#34;yaxes&#34;</span>: [
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;ms&#34;</span>,
-          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
-          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>
-        },
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;short&#34;</span>,
-          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
-          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">false</span>
-        }
-      ],
-      <span style="color:#f92672">&#34;yaxis&#34;</span>: {
-        <span style="color:#f92672">&#34;align&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;alignLevel&#34;</span>: <span style="color:#66d9ef">null</span>
-      }
-    },
-    {
-      <span style="color:#f92672">&#34;aliasColors&#34;</span>: {},
-      <span style="color:#f92672">&#34;bars&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;dashLength&#34;</span>: <span style="color:#ae81ff">10</span>,
-      <span style="color:#f92672">&#34;dashes&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;fill&#34;</span>: <span style="color:#ae81ff">2</span>,
-      <span style="color:#f92672">&#34;fillGradient&#34;</span>: <span style="color:#ae81ff">5</span>,
-      <span style="color:#f92672">&#34;gridPos&#34;</span>: {
-        <span style="color:#f92672">&#34;h&#34;</span>: <span style="color:#ae81ff">13</span>,
-        <span style="color:#f92672">&#34;w&#34;</span>: <span style="color:#ae81ff">24</span>,
-        <span style="color:#f92672">&#34;x&#34;</span>: <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&#34;y&#34;</span>: <span style="color:#ae81ff">9</span>
-      },
-      <span style="color:#f92672">&#34;hiddenSeries&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
-      <span style="color:#f92672">&#34;legend&#34;</span>: {
-        <span style="color:#f92672">&#34;alignAsTable&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;avg&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;current&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;rightSide&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;values&#34;</span>: <span style="color:#66d9ef">true</span>
-      },
-      <span style="color:#f92672">&#34;lines&#34;</span>: <span style="color:#66d9ef">true</span>,
-      <span style="color:#f92672">&#34;linewidth&#34;</span>: <span style="color:#ae81ff">1</span>,
-      <span style="color:#f92672">&#34;nullPointMode&#34;</span>: <span style="color:#e6db74">&#34;null&#34;</span>,
-      <span style="color:#f92672">&#34;options&#34;</span>: {
-        <span style="color:#f92672">&#34;dataLinks&#34;</span>: []
-      },
-      <span style="color:#f92672">&#34;percentage&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;pointradius&#34;</span>: <span style="color:#ae81ff">2</span>,
-      <span style="color:#f92672">&#34;points&#34;</span>: <span style="color:#66d9ef">true</span>,
-      <span style="color:#f92672">&#34;renderer&#34;</span>: <span style="color:#e6db74">&#34;flot&#34;</span>,
-      <span style="color:#f92672">&#34;seriesOverrides&#34;</span>: [],
-      <span style="color:#f92672">&#34;spaceLength&#34;</span>: <span style="color:#ae81ff">10</span>,
-      <span style="color:#f92672">&#34;stack&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;steppedLine&#34;</span>: <span style="color:#66d9ef">false</span>,
-      <span style="color:#f92672">&#34;targets&#34;</span>: [
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;time_series&#34;</span>,
-          <span style="color:#f92672">&#34;group&#34;</span>: [],
-          <span style="color:#f92672">&#34;metricColumn&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
-          <span style="color:#f92672">&#34;rawQuery&#34;</span>: <span style="color:#66d9ef">false</span>,
-          <span style="color:#f92672">&#34;rawSql&#34;</span>: <span style="color:#e6db74">&#34;SELECT\n  ts AS \&#34;time\&#34;,\n  metric AS metric,\n  value\nFROM network_logs\nWHERE\n  $__timeFilter(ts) AND\n  metric IN (&#39;download bytes&#39;,&#39;upload bytes&#39;)\nORDER BY ts&#34;</span>,
-          <span style="color:#f92672">&#34;refId&#34;</span>: <span style="color:#e6db74">&#34;A&#34;</span>,
-          <span style="color:#f92672">&#34;select&#34;</span>: [
-            [
-              {
-                <span style="color:#f92672">&#34;params&#34;</span>: [
-                  <span style="color:#e6db74">&#34;value&#34;</span>
-                ],
-                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;column&#34;</span>
-              }
-            ]
-          ],
-          <span style="color:#f92672">&#34;table&#34;</span>: <span style="color:#e6db74">&#34;network_logs&#34;</span>,
-          <span style="color:#f92672">&#34;timeColumn&#34;</span>: <span style="color:#e6db74">&#34;ts&#34;</span>,
-          <span style="color:#f92672">&#34;timeColumnType&#34;</span>: <span style="color:#e6db74">&#34;timestamp&#34;</span>,
-          <span style="color:#f92672">&#34;where&#34;</span>: [
-            {
-              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;$__timeFilter&#34;</span>,
-              <span style="color:#f92672">&#34;params&#34;</span>: [],
-              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;macro&#34;</span>
-            },
-            {
-              <span style="color:#f92672">&#34;datatype&#34;</span>: <span style="color:#e6db74">&#34;varchar&#34;</span>,
-              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-              <span style="color:#f92672">&#34;params&#34;</span>: [
-                <span style="color:#e6db74">&#34;metric&#34;</span>,
-                <span style="color:#e6db74">&#34;IN&#34;</span>,
-                <span style="color:#e6db74">&#34;(&#39;download bytes&#39;,&#39;upload bytes&#39;)&#34;</span>
-              ],
-              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;expression&#34;</span>
-            }
-          ]
-        }
-      ],
-      <span style="color:#f92672">&#34;thresholds&#34;</span>: [],
-      <span style="color:#f92672">&#34;timeFrom&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;timeRegions&#34;</span>: [],
-      <span style="color:#f92672">&#34;timeShift&#34;</span>: <span style="color:#66d9ef">null</span>,
-      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Speed&#34;</span>,
-      <span style="color:#f92672">&#34;tooltip&#34;</span>: {
-        <span style="color:#f92672">&#34;shared&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;sort&#34;</span>: <span style="color:#ae81ff">0</span>,
-        <span style="color:#f92672">&#34;value_type&#34;</span>: <span style="color:#e6db74">&#34;individual&#34;</span>
-      },
-      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;graph&#34;</span>,
-      <span style="color:#f92672">&#34;xaxis&#34;</span>: {
-        <span style="color:#f92672">&#34;buckets&#34;</span>: <span style="color:#66d9ef">null</span>,
-        <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;time&#34;</span>,
-        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#66d9ef">null</span>,
-        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
-        <span style="color:#f92672">&#34;values&#34;</span>: []
-      },
-      <span style="color:#f92672">&#34;yaxes&#34;</span>: [
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;Bps&#34;</span>,
-          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
-          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>
-        },
-        {
-          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;short&#34;</span>,
-          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
-          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
-          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">false</span>
-        }
-      ],
-      <span style="color:#f92672">&#34;yaxis&#34;</span>: {
-        <span style="color:#f92672">&#34;align&#34;</span>: <span style="color:#66d9ef">false</span>,
-        <span style="color:#f92672">&#34;alignLevel&#34;</span>: <span style="color:#66d9ef">null</span>
-      }
-    }
-  ],
-  <span style="color:#f92672">&#34;schemaVersion&#34;</span>: <span style="color:#ae81ff">22</span>,
-  <span style="color:#f92672">&#34;style&#34;</span>: <span style="color:#e6db74">&#34;dark&#34;</span>,
-  <span style="color:#f92672">&#34;tags&#34;</span>: [],
-  <span style="color:#f92672">&#34;templating&#34;</span>: {
-    <span style="color:#f92672">&#34;list&#34;</span>: []
-  },
-  <span style="color:#f92672">&#34;time&#34;</span>: {
-    <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;now-6h&#34;</span>,
-    <span style="color:#f92672">&#34;to&#34;</span>: <span style="color:#e6db74">&#34;now&#34;</span>
-  },
-  <span style="color:#f92672">&#34;timepicker&#34;</span>: {
-    <span style="color:#f92672">&#34;refresh_intervals&#34;</span>: [
-      <span style="color:#e6db74">&#34;5s&#34;</span>,
-      <span style="color:#e6db74">&#34;10s&#34;</span>,
-      <span style="color:#e6db74">&#34;30s&#34;</span>,
-      <span style="color:#e6db74">&#34;1m&#34;</span>,
-      <span style="color:#e6db74">&#34;5m&#34;</span>,
-      <span style="color:#e6db74">&#34;15m&#34;</span>,
-      <span style="color:#e6db74">&#34;30m&#34;</span>,
-      <span style="color:#e6db74">&#34;1h&#34;</span>,
-      <span style="color:#e6db74">&#34;2h&#34;</span>,
-      <span style="color:#e6db74">&#34;1d&#34;</span>
-    ]
-  },
-  <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
-  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Internet&#34;</span>,
-  <span style="color:#f92672">&#34;uid&#34;</span>: <span style="color:#e6db74">&#34;5PuTz-OGk&#34;</span>,
-  <span style="color:#f92672">&#34;variables&#34;</span>: {
-    <span style="color:#f92672">&#34;list&#34;</span>: []
-  },
-  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#ae81ff">3</span>
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;annotations&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;list&#34;</span>: [
+</span></span><span style="display:flex;"><span>      {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;builtIn&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#e6db74">&#34;-- Grafana --&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;enable&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;hide&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;iconColor&#34;</span>: <span style="color:#e6db74">&#34;rgba(0, 211, 255, 1)&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Annotations &amp; Alerts&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;dashboard&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editable&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gnetId&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;graphTooltip&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;links&#34;</span>: [],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;panels&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;aliasColors&#34;</span>: {},
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;bars&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dashLength&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dashes&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;fill&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;fillGradient&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;gridPos&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;h&#34;</span>: <span style="color:#ae81ff">9</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;w&#34;</span>: <span style="color:#ae81ff">24</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;x&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;y&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;hiddenSeries&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">4</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;legend&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;alignAsTable&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;avg&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;current&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;rightSide&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;values&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;lines&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;linewidth&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;nullPointMode&#34;</span>: <span style="color:#e6db74">&#34;null&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;options&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;dataLinks&#34;</span>: []
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;percentage&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;pointradius&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;points&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;renderer&#34;</span>: <span style="color:#e6db74">&#34;flot&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;seriesOverrides&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;spaceLength&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;stack&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;steppedLine&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;targets&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;time_series&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;group&#34;</span>: [],
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;metricColumn&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;rawQuery&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;rawSql&#34;</span>: <span style="color:#e6db74">&#34;SELECT\n  ts AS \&#34;time\&#34;,\n  metric AS metric,\n  value\nFROM network_logs\nWHERE\n  $__timeFilter(ts) AND\n  metric = &#39;latency&#39;\nORDER BY ts&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;refId&#34;</span>: <span style="color:#e6db74">&#34;A&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;select&#34;</span>: [
+</span></span><span style="display:flex;"><span>            [
+</span></span><span style="display:flex;"><span>              {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;params&#34;</span>: [
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value&#34;</span>
+</span></span><span style="display:flex;"><span>                ],
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;column&#34;</span>
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>          ],
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;table&#34;</span>: <span style="color:#e6db74">&#34;network_logs&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;timeColumn&#34;</span>: <span style="color:#e6db74">&#34;ts&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;timeColumnType&#34;</span>: <span style="color:#e6db74">&#34;timestamp&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;where&#34;</span>: [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;$__timeFilter&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;params&#34;</span>: [],
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;macro&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;datatype&#34;</span>: <span style="color:#e6db74">&#34;varchar&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;params&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;metric&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;=&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;&#39;latency&#39;&#34;</span>
+</span></span><span style="display:flex;"><span>              ],
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;expression&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          ]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;thresholds&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeFrom&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeRegions&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeShift&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Latency&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;tooltip&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;shared&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sort&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;value_type&#34;</span>: <span style="color:#e6db74">&#34;individual&#34;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;graph&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;xaxis&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;buckets&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;time&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;values&#34;</span>: []
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;yaxes&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;ms&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;short&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;yaxis&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;align&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;alignLevel&#34;</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;aliasColors&#34;</span>: {},
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;bars&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dashLength&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;dashes&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;datasource&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;fill&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;fillGradient&#34;</span>: <span style="color:#ae81ff">5</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;gridPos&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;h&#34;</span>: <span style="color:#ae81ff">13</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;w&#34;</span>: <span style="color:#ae81ff">24</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;x&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;y&#34;</span>: <span style="color:#ae81ff">9</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;hiddenSeries&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;legend&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;alignAsTable&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;avg&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;current&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;rightSide&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;total&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;values&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;lines&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;linewidth&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;nullPointMode&#34;</span>: <span style="color:#e6db74">&#34;null&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;options&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;dataLinks&#34;</span>: []
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;percentage&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;pointradius&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;points&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;renderer&#34;</span>: <span style="color:#e6db74">&#34;flot&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;seriesOverrides&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;spaceLength&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;stack&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;steppedLine&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;targets&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;time_series&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;group&#34;</span>: [],
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;metricColumn&#34;</span>: <span style="color:#e6db74">&#34;metric&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;rawQuery&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;rawSql&#34;</span>: <span style="color:#e6db74">&#34;SELECT\n  ts AS \&#34;time\&#34;,\n  metric AS metric,\n  value\nFROM network_logs\nWHERE\n  $__timeFilter(ts) AND\n  metric IN (&#39;download bytes&#39;,&#39;upload bytes&#39;)\nORDER BY ts&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;refId&#34;</span>: <span style="color:#e6db74">&#34;A&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;select&#34;</span>: [
+</span></span><span style="display:flex;"><span>            [
+</span></span><span style="display:flex;"><span>              {
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;params&#34;</span>: [
+</span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#34;value&#34;</span>
+</span></span><span style="display:flex;"><span>                ],
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;column&#34;</span>
+</span></span><span style="display:flex;"><span>              }
+</span></span><span style="display:flex;"><span>            ]
+</span></span><span style="display:flex;"><span>          ],
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;table&#34;</span>: <span style="color:#e6db74">&#34;network_logs&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;timeColumn&#34;</span>: <span style="color:#e6db74">&#34;ts&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;timeColumnType&#34;</span>: <span style="color:#e6db74">&#34;timestamp&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;where&#34;</span>: [
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;$__timeFilter&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;params&#34;</span>: [],
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;macro&#34;</span>
+</span></span><span style="display:flex;"><span>            },
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;datatype&#34;</span>: <span style="color:#e6db74">&#34;varchar&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;params&#34;</span>: [
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;metric&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;IN&#34;</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;(&#39;download bytes&#39;,&#39;upload bytes&#39;)&#34;</span>
+</span></span><span style="display:flex;"><span>              ],
+</span></span><span style="display:flex;"><span>              <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;expression&#34;</span>
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>          ]
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;thresholds&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeFrom&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeRegions&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;timeShift&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Speed&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;tooltip&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;shared&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sort&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;value_type&#34;</span>: <span style="color:#e6db74">&#34;individual&#34;</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;graph&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;xaxis&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;buckets&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;time&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;values&#34;</span>: []
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;yaxes&#34;</span>: [
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;Bps&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;format&#34;</span>: <span style="color:#e6db74">&#34;short&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;logBase&#34;</span>: <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;max&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;min&#34;</span>: <span style="color:#66d9ef">null</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;show&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;yaxis&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;align&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;alignLevel&#34;</span>: <span style="color:#66d9ef">null</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;schemaVersion&#34;</span>: <span style="color:#ae81ff">22</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;style&#34;</span>: <span style="color:#e6db74">&#34;dark&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;tags&#34;</span>: [],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;templating&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;list&#34;</span>: []
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;time&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;from&#34;</span>: <span style="color:#e6db74">&#34;now-6h&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;to&#34;</span>: <span style="color:#e6db74">&#34;now&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timepicker&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;refresh_intervals&#34;</span>: [
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;5s&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;10s&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;30s&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;1m&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;5m&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;15m&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;30m&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;1h&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;2h&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;1d&#34;</span>
+</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timezone&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;title&#34;</span>: <span style="color:#e6db74">&#34;Internet&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;uid&#34;</span>: <span style="color:#e6db74">&#34;5PuTz-OGk&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;variables&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;list&#34;</span>: []
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
 
 		
 	</div>
@@ -523,7 +523,7 @@ Note that we set the PATH variables since when we set the crontab we need to set
         		<footer>
 			
 			<span>
-			&copy; <time datetime="2022-01-28 17:52:05.349113 &#43;1100 AEDT m=&#43;0.131799420">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
+			&copy; <time datetime="2022-07-17 00:30:06.587454 &#43;1000 AEST m=&#43;0.281830428">2022</time> . Made with <a href='https://gohugo.io'>Hugo</a> using the <a href='https://github.com/EmielH/tale-hugo/'>Tale</a> theme.
 			</span>
 		</footer>
 
