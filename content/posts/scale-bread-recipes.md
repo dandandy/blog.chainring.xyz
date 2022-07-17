@@ -7,11 +7,11 @@ Author: "Daniel Barrett"
 
 ![Image of a loaf of sourdough bread](/images/scale-bread-recipes.jpg)
 
-Recipes are great and all, but when a recipe's servings don't match your desired number of servings you can end up with quite a few calculations to perform. And if you're anything like me, you'll wish there was another way ... so I built a website to help scale baking recipes using Bakers Percentages. [Check it out here.](https://bread.chainring.xyz)
+Recipes are great and all, but when a recipe's servings don't match your desired number of servings you can end up with quite a few calculations to perform. To speed this up I built a website to help scale baking recipes using Bakers Percentages. [Check it out here.](https://bread.chainring.xyz)
 
-Scaling recipes was a common problem I faced during the sourdough baking phase of the 2020 COVID-19 lockdown. Some days I had enough flour to bake a small loaf, other days requests from friends, and some days I had an excess of starter which I didn't want to waste. To keep up I had to regularly perform calculations, to start with these calculations were on the back of a napkin, then later in Excel Spreadsheets to scale my bread recipes. This left me thinking there must be a better way.
+Scaling recipes was a common problem I faced during the sourdough baking phase of the 2020 COVID-19 lockdowns. Some days I had enough flour to bake a small loaf, and other days I had an excess of starter which I didn't want to waste. To keep up I had to regularly perform calculations. To start with these calculations were on the back of a napkin, but this was too slow. So I switched to Excel Spreadsheets, but I it was annoying using the clunky user interface on mobile. This left me thinking there must be a better way.
 
-Enter the [Bakers Percentage](https://en.wikipedia.org/wiki/Baker_percentage). The baking solution for the recipe scaling problem. What you do is set the portion of ingredients as a percentage relative to the amount of flour. This way flour is always considered 100%. For the other ingredients, we divide their weight by the total weight of flour and then multiply by 100 to get the percentage. For example, the following recipe is converted to Bakers Percentage like so:
+Enter the [Bakers Percentage](https://bread.chainring.xyz): The baking solution for the recipe scaling problem. What you do is set the portion of ingredients as a percentage relative to the amount of flour. This way flour is always considered 100%. For the other ingredients, we divide their weight by the total weight of flour and then multiply by 100 to get the percentage. For example, the following recipe is converted to Bakers Percentage like so:
 
 ```
 400g Flour    --> 100%  (because 400/400 * 100)
